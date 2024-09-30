@@ -9,6 +9,29 @@ import seaborn as sns
 conn = sqlite3.connect('estoque_ponto_g.db')
 cursor = conn.cursor()
 
+# Garantir que as tabelas de 'entradas' e 'saidas' existam
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS entradas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        produto TEXT,
+        quantidade INTEGER,
+        preco_unitario REAL,
+        data DATE
+    )
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS saidas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        produto TEXT,
+        quantidade INTEGER,
+        preco_unitario REAL,
+        data DATE
+    )
+''')
+
+conn.commit()
+
 # Funções de inserção de dados na interface
 def adicionar_entrada():
     produto = entry_produto.get()
