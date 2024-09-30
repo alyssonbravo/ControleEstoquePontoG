@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação de Sistema de Estoque Ponto G</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Controle de Estoque Ponto-G</h1>
+    
+    <div class="input-group">
+        <label for="produto">Produto:</label>
+        <input type="text" id="produto" placeholder="Insira o nome do produto">
+    </div>
+    
+    <div class="input-group">
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" id="quantidade" placeholder="Insira a quantidade">
+    </div>
+    
+    <div class="input-group">
+        <label for="preco">Preço Unitário:</label>
+        <input type="number" id="preco" placeholder="Insira o preço unitário" step="0.01">
+    </div>
+    
+    <div class="input-group">
+        <label for="data">Data (YYYY-MM-DD):</label>
+        <input type="date" id="data">
+    </div>
+    
+    <div class="buttons">
+        <button onclick="adicionarEntrada()">Adicionar Entrada</button>
+        <button onclick="adicionarSaida()">Adicionar Saída</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Estoque Atual</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-estoque">
+            <!-- Linhas de produtos serão inseridas aqui -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const estoque = [];
+
+    function adicionarEntrada() {
+        const produto = document.getElementById('produto').value;
+        const quantidade = parseInt(document.getElementById('quantidade').value);
+        const preco = parseFloat(document.getElementById('preco').value);
+        const data = document.getElementById('data').value;
+
+        if (produto && quantidade && preco && data) {
+            atualizarEstoque(produto, quantidade);
+        } else {
+            alert('Preencha todos os campos.');
+        }
+    }
+
+    function adicionarSaida() {
+        const produto = document.getElementById('produto').value;
+        const quantidade = parseInt(document.getElementById('quantidade').value);
+        const preco = parseFloat(document.getElementById('preco').value);
+        const data = document.getElementById('data').value;
+
+        if (produto && quantidade && preco && data) {
+            atualizarEstoque(produto, -quantidade);
+        } else {
+            alert('Preencha todos os campos.');
+        }
+    }
+
+    function atualizarEstoque(produto, quantidade) {
+        let itemEstoque = estoque.find(item => item.produto === produto);
+        
+        if (itemEstoque) {
+            itemEstoque.quantidade += quantidade;
+        } else {
+            estoque.push({ produto, quantidade });
+        }
+
+        renderizarTabela();
+    }
+
+    function renderizarTabela() {
+        const tabela = document.getElementById('tabela-estoque');
+        tabela.innerHTML = '';
+
+        estoque.forEach(item => {
+            const row = tabela.insertRow();
+            const cellProduto = row.insertCell(0);
+            const cellQuantidade = row.insertCell(1);
+
+            cellProduto.textContent = item.produto;
+            cellQuantidade.textContent = item.quantidade;
+        });
+    }
+</script>
+
+</body>
+</html>
