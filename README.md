@@ -12,7 +12,7 @@ Este projeto tem como objetivo ajudar a Ponto G Distribuidora de Bebidas a monit
 ## Instalação
 
 1. Clone o repositório:
-https://github.com/SeuNome/ControleEstoquePontoG.git
+https://github.com/alyssonbravo/ControleEstoquePontoG
 
 2. Entre na pasta do projeto:
 cd ControleEstoquePontoG
